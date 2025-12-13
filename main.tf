@@ -58,20 +58,6 @@ resource "aws_route_table_association" "public_assoc" {
 }
 
 ##############################################
-# AMI for EC2 (Amazon Linux 2)
-##############################################
-data "aws_ami" "linux" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
-  }
-
-  owners = ["amazon"]
-}
-
-##############################################
 # Security Group
 ##############################################
 resource "aws_security_group" "web_sg" {
@@ -102,7 +88,7 @@ resource "aws_security_group" "web_sg" {
 # EC2 Instance
 ##############################################
 resource "aws_instance" "vm" {
-  ami           = data.aws_ami.linux.id
+  ami           = "ami-0c02fb55956c7d316" # Amazon Linux 2 - us-east-1
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
